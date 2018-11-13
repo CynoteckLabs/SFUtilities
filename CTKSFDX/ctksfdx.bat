@@ -19,6 +19,9 @@ REM #### WAIT TIME (in minutes)
 SET WAIT_RETRIEVE=10
 SET WAIT_DEPLOY=20
 
+REM #### EDITOR
+SET EDITOR=code
+
 REM ################################### CONFIG ENDS ####################################
 
 REM ###############################################################################################################
@@ -71,12 +74,12 @@ ECHO[
 ECHO[
 set /P orgname=Enter Target Org username: 
 call sfdx force:mdapi:deploy -d ./src -w %WAIT_DEPLOY% -u %orgname% > deploy.log
-notepad deploy.log
+%EDITOR% deploy.log
 EXIT /B 0
 
 REM ############# VERIFY BUILD FUNCTION ###################
 :VERIFYBUILD
 call sfdx force:mdapi:deploy -c -l RunLocalTests -d ./src -w %WAIT_DEPLOY% -u %BUILD% > buildtest.log
 ECHO View build test logs in buildtest.log file
-notepad buildtest.log
+%EDITOR% buildtest.log
 EXIT /B 0
