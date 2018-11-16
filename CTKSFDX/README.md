@@ -5,7 +5,6 @@ This utility is created to help beginners in utilizing sfdx commands without hav
 ## Dependencies
 1. Windows 10 
 2. SFDX
-3. Notepad
 
 ## Pre-Requisites
 1. Create a project folder
