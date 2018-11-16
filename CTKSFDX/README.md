@@ -3,7 +3,7 @@
 This utility is created to help beginners in utilizing sfdx commands without having to remember these commands. This utiilty is targeted towards team, which are yet not using scratch orgs. This helps in migrating team changesets/ ANT to SFDX based development processes.
 
 ## Dependencies
-1. Windows 10 
+1. Windows (developed and tested on windows 10, not sure about the rest)
 2. SFDX
 
 ## Pre-Requisites
