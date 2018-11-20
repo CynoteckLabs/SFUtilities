@@ -10,10 +10,10 @@ REM #### ENVIRONMENTS
 REM #### DO NOT ADD space between key and value (required by batch script)
 
 REM #### DEV is used as your source org
-SET DEV=
+SET DEV=<DEV INSTANCE USERNAME>
 
 REM #### Used to validate build
-SET BUILD=
+SET BUILD=<BUILD INSTANCE USERNAME>
 
 REM #### WAIT TIME (in minutes)
 SET WAIT_RETRIEVE=10
@@ -72,6 +72,7 @@ REM ############# DEPLOY FUNCTION ###################
 :DEPLOY
 ECHO[
 ECHO[
+ECHO Initiating deployment (UserName: %BUILD%)
 set /P orgname=Enter Target Org username: 
 call sfdx force:mdapi:deploy -d ./src -w %WAIT_DEPLOY% -u %orgname% > deploy.log
 %EDITOR% deploy.log
@@ -79,6 +80,9 @@ EXIT /B 0
 
 REM ############# VERIFY BUILD FUNCTION ###################
 :VERIFYBUILD
+ECHO[
+ECHO[
+ECHO Initiating validation build (UserName: %BUILD%)
 call sfdx force:mdapi:deploy -c -l RunLocalTests -d ./src -w %WAIT_DEPLOY% -u %BUILD% > buildtest.log
 ECHO View build test logs in buildtest.log file
 %EDITOR% buildtest.log
