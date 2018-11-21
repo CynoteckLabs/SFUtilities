@@ -72,8 +72,14 @@ REM ############# DEPLOY FUNCTION ###################
 :DEPLOY
 ECHO[
 ECHO[
+set /P orgname=Enter Target Org username:
+
+ECHO Taking Backup from target org (UserName: %BUILD%)
+
+call sfdx force:mdapi:retrieve -w %WAIT_RETRIEVE% -r .\backup -k .\src\package.xml -u %orgname%
+
 ECHO Initiating deployment (UserName: %BUILD%)
-set /P orgname=Enter Target Org username: 
+
 call sfdx force:mdapi:deploy -d ./src -w %WAIT_DEPLOY% -u %orgname% > deploy.log
 %EDITOR% deploy.log
 EXIT /B 0
