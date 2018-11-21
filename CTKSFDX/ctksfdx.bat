@@ -49,22 +49,24 @@ REM ############# RETRIEVE FUNCTION ###################
 :RETRIEVE
 ECHO[
 ECHO[
-ECHO CYNOTECK: Retrieving components from DEV
+ECHO CTKSFDX: Retrieving components from DEV
 
 REM Retrieve file
 call sfdx force:mdapi:retrieve -w %WAIT_RETRIEVE% -r .\temp_mdapipkg -k .\src\package.xml -u %DEV%
 
 REM UNPACK ZIP FILE
+ECHO CTKSFDX: Zipped components retrieved. Initiating unzip
 powershell Expand-Archive .\temp_mdapipkg\unpackaged.zip .\temp_src
 
 REM COPY Zip file contents to SRC folder
+echo CTKSFDX: Unzip completed. Initiating copy
 xcopy /Y /S /Q .\temp_src\unpackaged .\src
 
 REM Delete zip file and temp src folder
 rmdir /q /s temp_mdapipkg
 rmdir /q /s temp_src
 
-ECHO CYNOTECK: Retrieve complete
+ECHO CTKSFDX: Retrieve complete
 
 EXIT /B 0
 
@@ -74,22 +76,26 @@ ECHO[
 ECHO[
 set /P orgname=Enter Target Org username:
 
-ECHO Taking Backup from target org (UserName: %BUILD%)
+ECHO CTKSFDX: Taking Backup from target org (UserName: %BUILD%)
 
 call sfdx force:mdapi:retrieve -w %WAIT_RETRIEVE% -r .\backup -k .\src\package.xml -u %orgname%
 
-ECHO Initiating deployment (UserName: %BUILD%)
+ECHO CTKSFDX: Initiating deployment (UserName: %BUILD%)
 
 call sfdx force:mdapi:deploy -d ./src -w %WAIT_DEPLOY% -u %orgname% > deploy.log
+
 %EDITOR% deploy.log
+
 EXIT /B 0
 
 REM ############# VERIFY BUILD FUNCTION ###################
 :VERIFYBUILD
 ECHO[
 ECHO[
-ECHO Initiating validation build (UserName: %BUILD%)
+
+ECHO CTKSFDX: Initiating build validation (UserName: %BUILD%)
 call sfdx force:mdapi:deploy -c -l RunLocalTests -d ./src -w %WAIT_DEPLOY% -u %BUILD% > buildtest.log
-ECHO View build test logs in buildtest.log file
+
+ECHO CTKSFDX: View build test logs in buildtest.log file
 %EDITOR% buildtest.log
 EXIT /B 0
