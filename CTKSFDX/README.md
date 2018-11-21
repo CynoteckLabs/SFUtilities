@@ -2,9 +2,13 @@
 
 This utility is created to help beginners in utilizing sfdx commands without having to remember these commands. This utiilty is targeted towards team, which are yet not using scratch orgs. This helps in migrating team changesets/ ANT to SFDX based development processes.
 
-## Dependencies
+1. Windows - use ctksfdx.bat
+2. *nix - use ctksfdx.sh
+
+## Platform requirements
 1. Windows (developed and tested on windows 10, not sure about the rest)
 2. SFDX
+3. *nix systems (Tested on Linux Mint 18.02)
 
 ## Pre-Requisites
 1. Create a project folder
