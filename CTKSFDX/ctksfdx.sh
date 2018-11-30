@@ -43,10 +43,13 @@ mainmenu(){
     echo "		1 - Retrieve (Source = $DEV)"
     echo "		2 - Deploy"
     echo "		3 - Test Build (Target = $BUILD)"
+    echo "		4 - Run Local Tests"
     echo ""
     read choice
     
-    if [ $choice -eq 3 ]; then
+    if [ $choice -eq 4 ]; then
+        runlocaltests
+    elif [ $choice -eq 3 ]; then
         verifybuild
     elif [ $choice -eq 2 ]; then
         deploy
@@ -108,6 +111,15 @@ verifybuild(){
 
     echo "View build test logs in buildtest.log file"
     $EDITOR buildtest.log
+}
+
+############# RUN LOCAL TESTS FUNCTION ###################
+runlocaltests(){
+    echo "CTKSFDX: Running all local tests (UserName: $BUILD)"
+    sfdx force:apex:test:run --resultformat human -u $DEV -l RunLocalTests > localtestsrun.log
+
+    echo "View test exeuction logs in localtestsrun.log file"
+    $EDITOR localtestsrun.log
 }
 
 ### Show menu

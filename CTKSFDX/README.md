@@ -27,3 +27,4 @@ This utility is created to help beginners in utilizing sfdx commands without hav
 1. Retrieve - retrieve metadata of components defined within build manifest (package.xml)
 2. Deploy - deploy build to given instance (can use any instance available within force:org:list)
 3. Test Build - verify (verification build) your build against a dedicated build test environment
+3. Run all local tests (all test methods within classes part of default namespace)

@@ -38,9 +38,11 @@ ECHO Select option:
 ECHO 		1 - Retrieve (Source = %DEV%)
 ECHO 		2 - Deploy
 ECHO 		3 - Test Build (Target = %BUILD%)
+ECHO 		4 - Run Local Tests
 ECHO[
-CHOICE /C:123
+CHOICE /C:1234
 
+IF errorlevel 4 goto RUNLOCALTESTS
 IF errorlevel 3 goto VERIFYBUILD
 IF errorlevel 2 goto DEPLOY
 IF errorlevel 1 goto RETRIEVE
@@ -98,4 +100,18 @@ call sfdx force:mdapi:deploy -c -l RunLocalTests -d ./src -w %WAIT_DEPLOY% -u %B
 
 ECHO CTKSFDX: View build test logs in buildtest.log file
 %EDITOR% buildtest.log
+EXIT /B 0
+
+REM ############# RUN LOCAL TESTS FUNCTION ###################
+:RUNLOCALTESTS
+
+ECHO[
+ECHO[
+
+ECHO CTKSFDX: Running all local tests (UserName: %DEV%)
+
+call sfdx force:apex:test:run --resultformat human -u %DEV% -l RunLocalTests > localtestsrun.log
+ECHO View test execution logs in localtestsrun.log file
+%EDITOR% localtestsrun.log
+
 EXIT /B 0
