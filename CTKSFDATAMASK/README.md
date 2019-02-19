@@ -14,15 +14,18 @@ This utility is created to helps in automatically mask sensitive data especially
 
 ## Pre-Requisites
 1. Copy/ download command line utiilty in given folder
+2. User should has logged in to target sandbox via SFDX
 
 ## Usage
-It's simply to be run by passing target username and query to retrieve data (to be masked)
+Simply run by passing target username and query to retrieve data (to be masked).
+
 SYNTAX 
+
 maskemail USEERNAME OBJECT_NAME QUERY
 
 where,
-USEERNAME = Username of target salesforce instance (only sandboxes) asd@asd.com.dev
-QUERY = Query to retrieve data for masking
+1. USEERNAME = Username of target salesforce instance (only sandboxes) asd@asd.com.dev
+2. QUERY = Query to retrieve data for masking
 
 for example,
 maskemail test@testinstance.com "select id, email from Contact"
