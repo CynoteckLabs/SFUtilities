@@ -94,11 +94,11 @@ deploy() {
     echo "Enter Target Org username:"
     read targetOrg 
 
-    echo "CTKSFDX: Taking Backup from target org (UserName: $BUILD)"
+    echo "CTKSFDX: Taking Backup from target org (UserName: $targetOrg)"
 
-    sfdx force:mdapi:retrieve -w $WAIT_DEPLOY -r ./backup -k ./src/package.xml -u $DEV
+    sfdx force:mdapi:retrieve -w $WAIT_DEPLOY -r ./backup -k ./src/package.xml -u $targetOrg
 
-    echo "CTKSFDX: Initiating deployment (UserName: $BUILD)"
+    echo "CTKSFDX: Initiating deployment (UserName: $targetOrg)"
 
     sfdx force:mdapi:deploy -c -d ./src -w $WAIT_DEPLOY -u $targetOrg > deploy.log
     $EDITOR deploy.log

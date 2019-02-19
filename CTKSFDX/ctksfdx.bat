@@ -78,11 +78,11 @@ ECHO[
 ECHO[
 set /P orgname=Enter Target Org username:
 
-ECHO CTKSFDX: Taking Backup from target org (UserName: %BUILD%)
+ECHO CTKSFDX: Taking Backup from target org (UserName: %orgname%)
 
 call sfdx force:mdapi:retrieve -w %WAIT_RETRIEVE% -r .\backup -k .\src\package.xml -u %orgname%
 
-ECHO CTKSFDX: Initiating deployment (UserName: %BUILD%)
+ECHO CTKSFDX: Initiating deployment (UserName: %orgname%)
 
 call sfdx force:mdapi:deploy -d ./src -w %WAIT_DEPLOY% -u %orgname% > deploy.log
 
