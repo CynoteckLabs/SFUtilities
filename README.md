@@ -9,7 +9,12 @@ Provides easy to use VBA scripts for:
 
 For more details refer [help page](VBAUtilities/README.md)
 
-## CTKSFDX - Easy Wizard
+## SFDX Utility - Easy Wizard
 Provides an easy to use command line wizard for performing common salesforce development actions such as retrieve, deploy and test build.
 
 For more details refer [help page](CTKSFDX/README.md)
+
+## Cynoteck SF Data Masking Utility
+Easy to use command line utility to automatically download required data, mask and update data back into Salesforce. Very useful for sandbox environments to remove sensitive information. Currently supports only email 
+
+For more details refer [help page](CTKSFDATAMASK/README.md)
