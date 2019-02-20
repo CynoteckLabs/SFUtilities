@@ -21,7 +21,7 @@ Simply run by passing target username and query to retrieve data (to be masked).
 
 SYNTAX 
 
-<em>maskemail USEERNAME OBJECT_NAME QUERY</em>
+<em>maskemail USEERNAME QUERY</em>
 
 where,
 1. <em>USEERNAME</em> = Username of target salesforce instance (only sandboxes) asd@asd.com.dev
