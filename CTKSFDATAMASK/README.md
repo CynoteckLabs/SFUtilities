@@ -12,11 +12,13 @@ This utility is created to helps in automatically mask sensitive data especially
 4. sed (Windows installer: http://gnuwin32.sourceforge.net/packages/sed.htm)
 
 ## Pre-Requisites
-1. Copy/ download command line utiilty in given folder
-2. User should has logged in to target sandbox via SFDX
+1. Copy/ download command line utiilty in desired folder
+2. User should have logged in to target sandbox via SFDX
 
 ## Usage
-Simply run by passing target username and query to retrieve data (to be masked).
+1. Open Command prompt
+2. Navigate to folder where utility is downloaded/ copied
+3. Simply run utility by passing required parmeters
 
 SYNTAX 
 
@@ -31,4 +33,4 @@ maskemail test@testinstance.com "select id, email from Contact"
 
 ## Important
 1. Query to retrieve should always include ID field, to ensure sucessful data updates
-2. For large dataset, additional update batching may be required
+2. For large volume dataset, additional update batching may be required
