@@ -8,9 +8,8 @@ This utility is created to helps in automatically mask sensitive data especially
 ## Platform requirements
 1. Windows (developed and tested on windows 10)
 2. SFDX
-3. *nix systems (Tested on Linux Mint 18.02)
-4. jq (https://stedolan.github.io/jq/)
-5. sed (Windows installer: http://gnuwin32.sourceforge.net/packages/sed.htm)
+3. jq (https://stedolan.github.io/jq/)
+4. sed (Windows installer: http://gnuwin32.sourceforge.net/packages/sed.htm)
 
 ## Pre-Requisites
 1. Copy/ download command line utiilty in given folder
