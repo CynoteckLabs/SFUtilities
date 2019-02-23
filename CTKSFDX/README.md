@@ -5,6 +5,8 @@ This utility is created to help beginners in utilizing sfdx commands without hav
 1. Windows - use ctksfdx.bat
 2. *nix - use ctksfdx.sh
 
+![CTKSFDX Demo GIF](DemoGIF/CTKSFDX.gif?raw=true "CTKSFDX")
+
 ## Platform requirements
 1. Windows (developed and tested on windows 10, not sure about the rest)
 2. SFDX
