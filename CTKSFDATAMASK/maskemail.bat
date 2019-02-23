@@ -9,6 +9,9 @@ if -%1-==-- (
 	GOTO USERNAMEMISSING
 ) 
 if -%2-==-- (
+	GOTO OBJECTMISSING
+)
+if -%3-==-- (
 	GOTO QUERYMISSING
 )
 
@@ -20,6 +23,17 @@ GOTO INIT
 ECHO[
 ECHO[
 ECHO ERROR: ORG USERNAME NOT PROVIDED
+ECHO[
+
+GOTO USAGEINFO
+
+EXIT /B 0
+
+:OBJECTMISSING
+
+ECHO[
+ECHO[
+ECHO ERROR: OBJECT NAME NOT PROVIDED
 ECHO[
 
 GOTO USAGEINFO
@@ -53,7 +67,8 @@ EXIT /B 0
 :INIT
 
 SET DEV=%1%
-SET QUERY=%2%
+SET OBJNAME=%2%
+SET QUERY=%3%
 REM SET FIELDNAMES=%3%
 
 REM VERIFY SCRIPT IS RUNNING IN SANDBOX
@@ -93,7 +108,7 @@ ECHO --- Step 2: Masking all email address values
 type unmaskedData.csv | sed -r "s/\w+@\w+/masked@testorg/g" > maskedData.csv
 
 ECHO --- Step 3: udpating contacts in salesforce (USER: %DEV%)
-call sfdx force:data:bulk:upsert -u %DEV% -s Contact -w 30 -i Id -f maskedData.csv
+call sfdx force:data:bulk:upsert -u %DEV% -s %OBJNAME% -w 30 -i Id -f maskedData.csv
 
 REM Delete temporary data files
 del unmaskedData.csv, maskedData.csv
