@@ -111,6 +111,6 @@ ECHO --- Step 3: udpating contacts in salesforce (USER: %DEV%)
 call sfdx force:data:bulk:upsert -u %DEV% -s %OBJNAME% -w 30 -i Id -f maskedData.csv
 
 REM Delete temporary data files
-del unmaskedData.csv, maskedData.csv
+del unmaskedData.csv, maskedData.csv, issandbox.tmp
 
 EXIT /B 0
