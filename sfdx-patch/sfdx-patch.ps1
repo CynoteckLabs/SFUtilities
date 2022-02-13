@@ -8,7 +8,6 @@
 #>
 
 # Command parameters
-
 param (
     [Parameter( Mandatory = $true, HelpMessage="Provide last baseline branch or tag")]
     [string]$oldpath,    
@@ -29,37 +28,22 @@ function is_local_tag([string] $tag) {
 
 try{
 
-    # if(-not (Test-Path -Path $oldPath)){
-    #     throw "$($patchDir) not found"
-    # }
-
-    # if(-not (Test-Path -Path $patchDir)){
-    #     $patchDir = './patch';
-    # }
-
-    ## TODO show command usage
-
-    ## Get diff of two branches to identify delta
-    # $changeFiles = git diff --raw --name-only $oldPath..$newPath
-    # git diff --raw --name-only $oldPath..$newPath
-    # $changeFiles = (git diff --raw --name-only 8FEBSITDEPLOYMENT..main)
-    # echo $oldpath
-    # echo $newpath
-
     $err = $false
 
     # Validate if oldpath is valid branch of tag
     $isoldpathValid = is_local_branch($oldpath) | is_local_tag($oldpath)
     if( $isoldpathValid -eq $false ){
         throw "INVALID INPUT : No Branch of tag exists by name $($oldpath)"
-        $err = true
+        $err = $true
+        # exit 1
     }
 
     # Validate if newpath is valid branch of tag
     $isnewpathValid = is_local_branch($newpath) | is_local_tag($newpath)
     if( $isnewpathValid -eq $false ){
         throw "INVALID INPUT : No Branch of tag exists by name $($newpath)"
-        $err = true
+        $err = $true
+        # exit 1
     }
 
     if($err -eq $false){
@@ -79,8 +63,6 @@ try{
             }
         }
     }
-
-
 }catch{
     "Error: $($Error[0]) ($($MyInvocation.MyCommand.Name):$($_.InvocationInfo.ScriptLineNumber))"
 	exit 1
