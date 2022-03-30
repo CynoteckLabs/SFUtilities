@@ -2,7 +2,7 @@
 .SYNOPSIS
 	Generates differential patch for Salesforce code base
 .EXAMPLE
-	PS> ./sfdx-patch -old oldPatch -new newPath
+	PS> ./sfdx-patch -old oldPatch -new newPath -pathfolder patch3
 .NOTES
 	Author: Anshul Verma / Cynoteck Technology Solutions LLC
 #>
