@@ -31,7 +31,7 @@ try{
     $err = $false
 
     # Validate if oldpath is valid branch of tag
-    $isoldpathValid = is_local_branch($oldpath) | is_local_tag($oldpath)
+    $isoldpathValid = (is_local_branch($oldpath)) -or (is_local_tag($oldpath))
     if( $isoldpathValid -eq $false ){
         throw "INVALID INPUT : No Branch of tag exists by name $($oldpath)"
         $err = $true
@@ -39,7 +39,7 @@ try{
     }
 
     # Validate if newpath is valid branch of tag
-    $isnewpathValid = is_local_branch($newpath) | is_local_tag($newpath)
+    $isnewpathValid = (is_local_branch($newpath)) -or (is_local_tag($newpath))
     if( $isnewpathValid -eq $false ){
         throw "INVALID INPUT : No Branch of tag exists by name $($newpath)"
         $err = $true
@@ -49,6 +49,7 @@ try{
     if($err -eq $false){
 
         # get all files that changed between given branches/tags
+		git diff --raw --name-only $oldpath..$newpath
         $changeFiles = (git diff --raw --name-only $oldpath..$newpath)
 
         if($changeFiles -ne $null){
