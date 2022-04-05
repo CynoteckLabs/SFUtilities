@@ -1,4 +1,6 @@
-# SFDX Patch Utility
+# SFDX Patch Utility :hammer_and_wrench:
+
+:hammer_and_wrench: **THIS IS UNDER DEVELOPMENT - NOT READY YET**
 
 This utility is creates a deployment patch for SFDX projects. For larger projects, it helps identtify delta (changes) between a given git branch or tag to identify files that were changed, to allow delta deployments
 
