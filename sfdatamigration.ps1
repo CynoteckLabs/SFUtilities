@@ -86,7 +86,7 @@ function DBCOMMAND{
 }
 
 # Create tracking tables 
-function INITDB{
+function DBINIT{
     $actionConfig = @{};
 
     # Create table to Old and New IDs
@@ -357,8 +357,8 @@ function DBDATAEXTRACTVIEWSQL{
 $Env:PGPASSWORD = $envConfig.db_pwd;
 
 foreach ($actionConfig in $lstActionsConfig){
-    if($actionConfig.action -eq "INITDB"){
-        INITDB -actionConfig $actionConfig
+    if($actionConfig.action -eq "DBINIT"){
+        DBINIT -actionConfig $actionConfig
     }
     elseif($actionConfig.action -eq "DBSELECT"){
         DBSELECT -actionConfig $actionConfig

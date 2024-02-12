@@ -1,6 +1,6 @@
 [
     {
-        "action" : "INITDB",
+        "action" : "DBINIT",
         "description" : "Initialize database"
     },
     {
