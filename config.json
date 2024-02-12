@@ -1,0 +1,77 @@
+{
+    "sf_env" : "SF_LEARN",
+    "db_host" : "localhost",
+    "db_port" : "5439",
+    "db_name" : "temp",
+    "db_username" : "postgres",
+    "db_pwd" : "",
+    "objectSettings" : [
+        {
+            "name" : "COMMON_OBJECT",
+            "excludeFields" : [
+                "CreatedDate",
+                "CreatedById",
+                "LastModifiedDate",
+                "LastModifiedById",
+                "LastActivityDate",
+                "LastViewedDate",
+                "LastReferencedDate",
+                "OwnerId",
+                "LastCURequestDate", 
+                "LastCUUpdateDate",
+                "PhotoUrl",
+                "Legacy__c",
+                "SystemModstamp",
+                "IsDeleted"
+            ],
+            "mappingOverride" : {
+
+            }
+        },
+        {
+            "name" : "Account",
+            "excludeFields" : [
+                "Legacy__c",
+                "ShippingAddress",
+                "BillingAddress",
+                "CustomerPriority__c",
+                "SLA__c",
+                "Active__c",
+                "NumberofLocations__c",
+                "UpsellOpportunity__c",
+                "SLASerialNumber__c",
+                "SLAExpirationDate__c",
+                "CurrencyIsoCode",
+                "IsPartner", 
+                "IsCustomerPortal",
+                "ChannelProgramName", 
+                "ChannelProgramLevelName", 
+                "Jigsaw", 
+                "JigsawCompanyId", 
+                "CleanStatus",
+                "DandbCompanyId", 
+                "OperatingHoursId"
+            ]
+        },
+        {
+            "name" : "Contact",
+            "excludeFields" : [
+                "Legacy__c",
+                "IndividualId",
+                "Name", 
+                "IsEmailBounced", 
+                "IsPriorityRecord",
+                "Level__c",
+                "Languages__c",
+                "OtherAddress",
+                "MailingAddress",
+                "Next_Connect__c",
+                "Salary__c",
+                "Decision_Share__c",
+                "CaseSafeID__c",
+                "CurrencyIsoCode",
+            ]
+        }
+    ]
+
+}

@@ -1,0 +1,56 @@
+[
+    {
+        "action" : "INITDB",
+        "description" : "Initialize database"
+    },
+    {
+        "action" : "DBCOMMAND2",
+        "description" : "Create IDMapping Table",
+        "command" : "CREATE TABLE IF NOT EXISTS IDMAPPING ( newid text, oldid text);"
+    },
+    {
+        "action" : "DBCOMMAND2",
+        "description" : "Track Migration Status",
+        "command" : "CREATE TABLE IF NOT EXISTS MIGRATIONSTATUS ( newid text, oldid text, details text);"
+    },
+    {
+        "action" : "SFSOBJECTTOTABLESQL",
+        "description" : "create staging table for account",
+        "object" : "Account",
+        "tableName" : "IN_Account",
+        "appendToFile" : "c:\\Anshul\\datamigration\\step1_createschemascript2.sql"
+    },
+    {
+        "action" : "DBDATAEXTRACTVIEWSQL",
+        "description" : "create view to extract data for account",
+        "name" : "EXT_ACCOUNT",
+        "object" : "Account",
+        "tableName" : "IN_Account",
+        "legacyField" : "Legacy__c",
+		"mappingTable" : "MIGRATIONSTATUS",
+        "appendToFile" : "c:\\Anshul\\datamigration\\step1_createschemascript2.sql"
+    },
+    {
+        "action" : "SFSOBJECTTOTABLESQL",
+        "description" : "create staging table for Contact",
+        "object" : "Contact",
+        "tableName" : "IN_Contact",
+        "appendToFile" : "c:\\Anshul\\datamigration\\step1_createschemascript2.sql"
+    },
+    {
+        "action" : "DBDATAEXTRACTVIEWSQL",
+        "description" : "create view to extract data for Contact",
+        "name" : "EXT_CONTACT",
+        "object" : "Contact",
+        "tableName" : "IN_Contact",
+        "legacyField" : "Legacy__c",
+		"mappingTable" : "MIGRATIONSTATUS",
+        "orderBy" : ["AccountId"],
+        "appendToFile" : "c:\\Anshul\\datamigration\\step1_createschemascript2.sql"
+    },
+    {
+        "action" : "DBSCRIPT",
+        "description" : "Execute script to build schema",
+        "scriptPath" : "c:\\Anshul\\datamigration\\step1_createschemascript2.sql"
+    }
+]

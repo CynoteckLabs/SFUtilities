@@ -1,0 +1,28 @@
+[
+    {
+        "action" : "SFSELECT",
+        "description" : "extract accounts data from Salesforce",
+        "object" : "Account",
+        "outputFile" : "c:\\Anshul\\datamigration\\src_accounts.csv",
+        "wait" : 5
+    },
+    {
+        "action" : "DBINSERT",
+        "description" : "import accounts data into staging table",
+        "table" : "IN_Account",
+        "inputFile" : "c:\\Anshul\\datamigration\\src_accounts.csv"
+    },
+    {
+        "action" : "SFSELECT",
+        "description" : "extract contacts data from Salesforce",
+        "object" : "Contact",
+        "outputFile" : "c:\\Anshul\\datamigration\\src_contacts.csv",
+        "wait" : 5
+    },
+    {
+        "action" : "DBINSERT",
+        "description" : "import contacts data into staging table",
+        "table" : "IN_Contact",
+        "inputFile" : "c:\\Anshul\\datamigration\\src_contacts.csv"
+    }
+]
