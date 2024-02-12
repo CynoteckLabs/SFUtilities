@@ -332,3 +332,5 @@ PS> ./sfdatamigration.ps1 -configFilePath ./config.json -actionsFilePath ./schem
 For more details, visit https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_dev_cli_config_values.htm
 
 * Any data quality failures need to be fixed before loading into target, to avoid any data failures
+* Utility assumes same api name of field between target and source environments. For any overrides, manually edit SQL code of extraction views
+* Any data transformation or mapping to fields of different name, manually edit SQL code of extraction views
