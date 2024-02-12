@@ -10,22 +10,16 @@
         "description" : "Upsert accounts data into Salesforce",
         "object" : "Account",
         "inputFile" : "c:\\Anshul\\datamigration\\load_accounts.csv",
-        "outputFile" : "c:\\Anshul\\datamigration\\accounts_results.csv",
+        "outputFile" : "c:\\Anshul\\datamigration\\accounts_results.json",
         "wait" : 5,
-        "externalid" : "Id",
+        "externalid" : "Id"
+    },
+    {
+        "action" : "SFLOADRESULTS",
+        "description" : "Process and load SF UPSERT results into database",
+        "inputFile" : "c:\\Anshul\\datamigration\\accounts_results.json",
+        "table" : "MIGRATIONSTATUS",
         "legacyField" : "Legacy__c"
-    },
-    {
-        "action" : "SFSELECT2",
-        "description" : "Get newly inserted accounts to get their legacy id and new id",
-        "query" : "select Legacy__c, Id from Account where createddate = TODAY",
-        "outputFile" : "c:\\Anshul\\datamigration\\accounts_keymapping.csv",
-        "wait" : 5
-    },
-    {
-        "action" : "DBCOMMAND2",
-        "description" : "Insert old and new id of accounts for cross mapping",
-        "command" : "copy IDMAPPING(oldid,newid) from 'c:\\Anshul\\datamigration\\accounts_keymapping.csv' delimiter ',' CSV HEADER ENCODING 'UTF8' QUOTE  '\"' ESCAPE ''''"
     },
     {
         "action" : "DBSELECT",
@@ -38,21 +32,16 @@
         "description" : "Upsert contacts data into Salesforce",
         "object" : "Contact",
         "inputFile" : "c:\\Anshul\\datamigration\\load_contacts.csv",
-        "outputFile" : "c:\\Anshul\\datamigration\\contacts_results.csv",
+        "outputFile" : "c:\\Anshul\\datamigration\\contacts_results.json",
         "wait" : 5,
         "externalid" : "Id",
         "legacyField" : "Legacy__c"
     },
     {
-        "action" : "SFSELECT2",
-        "description" : "Get newly inserted contacts to get their legacy id and new id",
-        "query" : "select Legacy__c, Id from Contact where createddate = TODAY",
-        "outputFile" : "c:\\Anshul\\datamigration\\contacts_keymapping.csv",
-        "wait" : 5
-    },
-    {
-        "action" : "DBCOMMAND2",
-        "description" : "Insert old and new id of Contacts for cross mapping",
-        "command" : "copy IDMAPPING(oldid,newid) from 'c:\\Anshul\\datamigration\\contacts_keymapping.csv' delimiter ',' CSV HEADER ENCODING 'UTF8' QUOTE  '\"' ESCAPE ''''"
+        "action" : "SFLOADRESULTS",
+        "description" : "Process and load SF UPSERT results into database",
+        "inputFile" : "c:\\Anshul\\datamigration\\contacts_results.json",
+        "table" : "MIGRATIONSTATUS",
+        "legacyField" : "Legacy__c"
     }
 ]

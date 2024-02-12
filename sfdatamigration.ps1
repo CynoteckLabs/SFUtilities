@@ -135,10 +135,16 @@ function SFUPSERT{
         $actionConfig
     )
     sfdx data upsert bulk -s $actionConfig.object -f $actionConfig.inputFile -o $sfEnv -w $actionConfig.wait -i $actionConfig.externalid --json > $actionConfig.outputFile
+}
 
+# Upsert data into Salesforce
+function SFLOADRESULTS{
+    param (
+        $actionConfig
+    )
     if( $actionConfig.legacyField -ne "" -AND $actionConfig.legacyField -ne $NULL){
         # Retrieve logs and populate within migratation status table
-        $upsertLogs = (Get-Content $actionConfig.outputFile -Raw) | ConvertFrom-Json
+        $upsertLogs = (Get-Content $actionConfig.inputFile -Raw) | ConvertFrom-Json
 
         $migrationData = 'newid,oldid,details'
 
@@ -153,12 +159,12 @@ function SFUPSERT{
         }
 
         # write data to file
-        $datalodfilename = $actionConfig.outputFile + '.dataload'
+        $datalodfilename = $actionConfig.inputFile + '.dataload'
         Set-Content $datalodfilename -value $migrationData -Encoding $dataEncoding -NoNewLine
 
         # Insert results into database
         $resultsLoadConfig = @{};
-        $resultsLoadConfig.table = "MIGRATIONSTATUS"
+        $resultsLoadConfig.table = $actionConfig.table;
         $resultsLoadConfig.inputFile = $datalodfilename
 
         DBINSERT -actionConfig $resultsLoadConfig
@@ -354,7 +360,7 @@ foreach ($actionConfig in $lstActionsConfig){
     if($actionConfig.action -eq "INITDB"){
         INITDB -actionConfig $actionConfig
     }
-    if($actionConfig.action -eq "DBSELECT"){
+    elseif($actionConfig.action -eq "DBSELECT"){
         DBSELECT -actionConfig $actionConfig
     }
     elseif($actionConfig.action -eq "DBINSERT"){
@@ -368,6 +374,9 @@ foreach ($actionConfig in $lstActionsConfig){
     }    
     elseif($actionConfig.action -eq "SFSOBJECTTOTABLESQL"){
         SFSOBJECTTOTABLESQL -actionConfig $actionConfig
+    }
+    elseif($actionConfig.action -eq "SFLOADRESULTS"){
+        SFLOADRESULTS -actionConfig $actionConfig
     }
     elseif($actionConfig.action -eq "DBDATAEXTRACTVIEWSQL"){
         DBDATAEXTRACTVIEWSQL -actionConfig $actionConfig
