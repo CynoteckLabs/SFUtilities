@@ -206,20 +206,22 @@ Example:
 |legacyField| API Name of field which will store legacy id of record| Use this to store Source system unique identifier for record within Target system <br/> :bulb: Recommend creating a custom field on the custom object (within Target org) to store old Record id |
 |mappingTable| Table containing mapping between old legacy id and new id of related records||
 |appendToFile| Outfile file, where SQL should be appended| Note: SQL Script will be appended to the target file| 
+|orderBy| (Optional) Array of api names of object fields to sort data for load | :bulb: Use this field to sort data to get better throughput for high volume data loads |
 
 
 Example:
 ```
 {
     "action" : "DBDATAEXTRACTVIEWSQL",
-    "description" : "create view to extract data for account",
-    "name" : "EXT_ACCOUNT",
-    "object" : "Account",
-    "tableName" : "IN_Account",
+    "description" : "create view to extract data for Contact",
+    "name" : "EXT_CONTACT",
+    "object" : "Contact",
+    "tableName" : "IN_Contact",
     "legacyField" : "Legacy__c",
-    "mappingTable" : "IDMAPPING",
+    "mappingTable" : "MIGRATIONSTATUS",
+    "orderBy" : ["AccountId"],
     "appendToFile" : "c:\\datamigration\\step1_createschemascript2.sql"
-},
+}
 ```
 
 #### DBCSVHEADERTOTABLESQL
