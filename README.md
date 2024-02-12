@@ -276,7 +276,7 @@ Example:
 Execute job using powershell utility parameters:
 
 |Parameter|Purpose|Additional Details|
-|--|--|
+|--|--|--|
 |configFilePath| JSON file path containing utility configurations| Default value is ./config.json |
 |actionsFilePath| JSON file path containing job configurations| Default value is ./actions.json |
 |sfenv| Salesforce environment to be used as target or source |  |
