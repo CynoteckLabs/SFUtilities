@@ -97,6 +97,8 @@ Each job file can contain multiple tasks in JSON format. Ideally each job file w
 |Salesforce|SFSELECT|Extract data from Salesforce (CSV)| 
 |Salesforce|SFUPSERT|Upsert data into Salesforce| 
 |Salesforce|SFSOBJECTTOTABLESQL|Generate SQL to create table as clone of Given Salesforce object| 
+|Salesforce|SFLOADRESULTS|Parse and load upsert results into database (default table **MIGRATIONSTATUS**) | 
+|Database (PostgreSQL)|DBINIT|Initialize database (automatically creates status and mapping table **MIGRATIONSTATUS**)| 
 |Database (PostgreSQL)|DBINSERT|Insert data into Database| 
 |Database (PostgreSQL)|DBDATAEXTRACTVIEWSQL| Generate Data extraction view | 
 |Database (PostgreSQL)|DBSELECT|Extract data from Database (primarily used to get data from data extraction views)|
@@ -179,6 +181,39 @@ Example:
     "tableName" : "IN_Contact",
     "appendToFile" : "c:\\datamigration\\step1_createschemascript2.sql"
 },
+```
+
+#### SFLOADRESULTS
+|Properties|Purpose|Additional Details|
+|--|--|--|
+|inputFile|File where results from upsert task are stored||
+|table|Local database table name where results are to be stored (default: **MIGRATIONSTATUS**)||
+|legacyField| (Optional) name of table column containing old record id. It should be same value as specified in corresponding **DBDATAEXTRACTVIEWSQL** task for the entity within field named **legacyField** | :bulb: If this value is provided, utility automatically parses results and stores within database table named **MIGRATIONSTATUS**|
+
+Example:
+```
+{
+    "action" : "SFLOADRESULTS",
+    "description" : "Process and load SF UPSERT results into database",
+    "inputFile" : "c:\\datamigration\\accounts_results.json",
+    "table" : "MIGRATIONSTATUS",
+    "legacyField" : "Legacy__c"
+},
+```
+
+#### DBINIT
+This task initializes local database by creating following tables (used by utility):1
+* MIGRATIONSTATUS
+* IDMAPPING
+
+:bulb: DBINIT should be first task for schema definition job file. This allows required tables to be created, which are used for extraction views
+
+Example:
+```
+{
+    "action" : "DBINIT",
+    "description" : "Initialize database"
+}
 ```
 
 #### DBINSERT
