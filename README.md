@@ -1,4 +1,4 @@
-# Salesforce Data Migration Utility
+# CTK Data Migrator (Salesforce Data Migration Utility)
 
 ## Purpose
 Basic ETL (Extract - Transform - Load) utility for Data Migration from/to Salesforce.
@@ -14,17 +14,16 @@ Basic ETL (Extract - Transform - Load) utility for Data Migration from/to Salesf
 
 
 ## Tools Used
-1. Salesforce command line utility
-2. PostgreSQL Database
-3. PSQl utility (installed with PostgreSQL isntaller)
-4. Powershell
+1. Salesforce command line utility (https://developer.salesforce.com/tools/salesforcecli)
+2. PostgreSQL Database (https://www.postgresql.org/download/)
+    * PSQL utility (installed with PostgreSQL isntaller)
+4. Powershell (pre-installed on windows machines)
 
 ## Pre-Requisites
 Before using this utility, ensure you have following on workstation:
-1. Salesforce command line utility installed and authenticated to all target salesforce orgs
+1. Salesforce command line utility installed and authenticated to all target/source salesforce orgs
 2. PostgreSQL installed (along with psql command line utility)
 3. PostgreSQL server should be running
-
 
 ## Setup
 ### Setup Environment Configuration
