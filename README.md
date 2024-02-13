@@ -36,7 +36,7 @@ Setup configuration file as a JSON file with following properties
 |db_name| Postgres Database name| This is were data will be staged/stored for migration purposes|
 |db_username|Postgres Database user name||
 |db_pwd|Postgres Database user password||
-|objectSettings|A JSON object array containing object realted settings| For more information refer Object Settings|
+|objectSettings|A JSON object array containing object related settings| For more information refer Object Settings|
 
 
 #### Object Settings
@@ -44,6 +44,13 @@ Setup configuration file as a JSON file with following properties
 |--|--|--| 
 |name|Salesforce object API Name (including namespace, as applicable)| Special name **COMMON_OBJECT** can be used to provide object agnostic configurations |
 |excludeFields|JSON String array of fields to be excluded for data extraction||
+|mappingOverrides|A JSON object array containing object mapping of source field name to target field name| For more information refer Mapping Override Settings|
+
+#### Mapping Override Settings
+|Property|Purpose|Additional Details|
+|--|--|--| 
+|sourceName| API Name of field in Source environment|  |
+|targetName| API Name of field in Target environment|  |
 
 Example Config.json file:
 ```
@@ -79,6 +86,9 @@ Example Config.json file:
                 "Name", 
                 "IsEmailBounced", 
                 "IsPriorityRecord"
+            ],
+            "mappingOverrides" : [
+                { "sourceName" : "LoyaltyNumber__c", "targetName" : "customernumber__c" },
             ]
         }
     ]

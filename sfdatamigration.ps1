@@ -283,6 +283,40 @@ function DBCSVHEADERTOTABLESQL{
     }
 }
 
+function GETFIELDOVERRIDES{
+    param (
+        $objectName
+    )
+
+    $fieldOverrides = @();
+
+    foreach ($objSettings in $envConfig.objectSettings){
+        if($objSettings.name -eq 'COMMON_OBJECT' -OR $objSettings.name -eq $objectName){
+            $fieldOverrides += $objSettings.mappingOverrides
+        }
+    }
+
+    return $fieldOverrides
+}
+
+function GETFIELDOVERRIDEVALUE{
+    param (
+        $fieldName,
+        $fieldOverrides
+    )
+
+    $overrideName = ""
+
+    foreach ($overrideConfig in $fieldOverrides){
+        if($overrideConfig.sourceName -eq $fieldName){
+            $overrideName = $overrideConfig.targetName
+            break
+        }
+    }
+
+    return $overrideName
+}
+
 # Create Database View to extract data
 function DBDATAEXTRACTVIEWSQL{
     param (
@@ -297,19 +331,31 @@ function DBDATAEXTRACTVIEWSQL{
     $joinCounter = 1;
 
     $mappingTableName = $actionConfig.mappingTable;
+
+    $fieldOverrides = GETFIELDOVERRIDES -objectName $actionConfig.object
     
     foreach ($fieldInfo in $objFields){
+
+        $overriddenName = GETFIELDOVERRIDEVALUE -fieldName $fieldInfo.name -fieldOverrides $fieldOverrides
 
         # skip formula fields and Id field and address fields
         if( -NOT($fieldInfo.calculated) -AND $fieldInfo.name -ne "Id"){ 
             if($fieldInfo.type -eq "reference"){
-                $fieldsToExtract += "`n`t A" + $joinCounter + ".newid as " + $fieldInfo.name + ","
+                if($overriddenName -eq $NULL -OR $overriddenName -eq ""){
+                    $overriddenName = $fieldInfo.name
+                }
+                $fieldsToExtract += "`n`t A" + $joinCounter + ".newid as " + $overriddenName
                 $joinsToAdd += "`nLEFT OUTER JOIN $mappingTableName A" + $joinCounter + " on C." + $fieldInfo.name + " = A" + $joinCounter + ".oldid"
                 $fieldMap[$fieldInfo.name] = "A" + $joinCounter + ".newid"
                 $joinCounter = $joinCounter + 1
             }
             else{
-                $fieldsToExtract += "`n`t " + $fieldInfo.name + ","
+                if($overriddenName -ne $NULL -AND $overriddenName -ne ""){
+                    $fieldsToExtract += "`n`t " + $fieldInfo.name + " AS $overriddenName,"
+                }
+                else{
+                    $fieldsToExtract += "`n`t " + $fieldInfo.name
+                }
             }
         }
     }
