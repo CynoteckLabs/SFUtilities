@@ -1,6 +1,7 @@
 # Split CSV
-Filename: splitcsv.ps1
 Split a large CSV into multiple smaller CSV files
+
+Filename: splitcsv.ps1
 
 ### Parameters:
 |Name	|	Required	|	Purpose |
