@@ -18,3 +18,8 @@ For more details refer [help page](CTKSFDX/README.md)
 Easy to use command line utility to automatically download required data, mask and update data back into Salesforce. Very useful for sandbox environments to remove sensitive information. Currently supports only email 
 
 For more details refer [help page](CTKSFDATAMASK/README.md)
+
+## Split CSV
+Quick utility to break large CSV files into smaller CSV files, to ease data upload into Salesforce.
+
+For more details refer [help page](SplitCSV/README.md)
