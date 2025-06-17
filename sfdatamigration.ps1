@@ -117,7 +117,7 @@ function DBSELECT{
     param (
         $actionConfig
     )
-    $sqlCmd = "COPY (" + $actionConfig.command + ") TO '" + $actionConfig.exportfile + "' WITH DELIMITER ',' CSV HEADER ENCODING '$dataEncoding' QUOTE '""' ESCAPE '''';"
+    $sqlCmd = "COPY (" + $actionConfig.command + ") TO '" + $actionConfig.exportfile + "' WITH DELIMITER ',' CSV HEADER ENCODING '$dataEncoding' QUOTE '""' ESCAPE '""';"
     & $PSQLUTILITY -h $envConfig.db_host -p $envConfig.db_port -U $envConfig.db_username -d $envConfig.db_name -c $sqlCmd
 }
 
@@ -127,7 +127,7 @@ function DBINSERT{
         $actionConfig
     )
     
-    $sqlCmd = "COPY " + $actionConfig.table + " FROM '" + $actionConfig.inputFile  + "' DELIMITER ',' CSV HEADER ENCODING '$dataEncoding' QUOTE '""' ESCAPE '''';"
+    $sqlCmd = "COPY " + $actionConfig.table + " FROM '" + $actionConfig.inputFile  + "' DELIMITER ',' CSV HEADER ENCODING '$dataEncoding' QUOTE '""' ESCAPE '""';"
     # echo $sqlCmd
     & $PSQLUTILITY -h $envConfig.db_host -p $envConfig.db_port -U $envConfig.db_username -d $envConfig.db_name -c $sqlCmd
 }
@@ -188,11 +188,11 @@ function SFSELECT{
         $objFields = GetMigrationFieldsByObject -objAPIName $actionConfig.object
 
         $fieldsStr = Join-String -InputObject $objFields -Property name -Separator ', '
-
+        
         $soqlScript = 'SELECT ' + $fieldsStr + ' FROM ' + $actionConfig.object
     }
 
-    sf data query -q $soqlScript -b -o $sfEnv -w $actionConfig.wait -r csv --bulk  | out-file -encoding utf8 $actionConfig.outputFile
+    sf data export bulk -q $soqlScript -o $sfEnv -w $actionConfig.wait -r csv --output-file $actionConfig.outputFile
 }
 
 # Filters fields for object
@@ -231,8 +231,6 @@ function SFSOBJECTTOTABLESQL{
 
     $dmlScript = "-- Table for " + $actionConfig.object
     $dmlScript += "`nCREATE TABLE " + $actionConfig.tableName + " ("
-
-    
 
     foreach ($fieldInfo in $objFields){
 
@@ -370,8 +368,10 @@ function DBDATAEXTRACTVIEWSQL{
     }
 
     # remove extra comma with last field
-    $fieldsLength = $fieldsToExtract.Length
-    $fieldsToExtract = $fieldsToExtract.Remove($fieldsLength - 1, 1)
+    if( $fieldsToExtract -ne $NULL){
+        $fieldsLength = $fieldsToExtract.Length
+        $fieldsToExtract = $fieldsToExtract.Remove($fieldsLength - 1, 1)
+    }
 
     # Concatenate values to create view creation sql
     $dmlScript = "-- VIEW to exract " + $actionConfig.object
