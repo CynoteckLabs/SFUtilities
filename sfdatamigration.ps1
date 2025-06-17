@@ -18,6 +18,10 @@ if($sfEnv -eq $NULL -OR $sfEnv -eq ""){
     $sfEnv = $envConfig.sf_env
 }
 
+$PSQLUTILITY = 'psql';
+if( -NOT($envConfig.psqlPath -eq "")){
+    $PSQLUTILITY = $envConfig.psqlPath + '//' + $PSQLUTILITY
+}
 
 [Console]::OutputEncoding = New-Object -typename System.Text.UTF8Encoding
 
@@ -82,7 +86,7 @@ function DBCOMMAND{
     param (
         $actionConfig
     )
-    psql -h $envConfig.db_host -p $envConfig.db_port -U $envConfig.db_username -d $envConfig.db_name -c $actionConfig.command
+    & $PSQLUTILITY -h $envConfig.db_host -p $envConfig.db_port -U $envConfig.db_username -d $envConfig.db_name -c $actionConfig.command
 }
 
 # Create tracking tables 
@@ -105,7 +109,7 @@ function DBSCRIPT{
     param (
         $actionConfig
     )
-    psql -h $envConfig.db_host -p $envConfig.db_port -U $envConfig.db_username -d $envConfig.db_name -f $actionConfig.scriptPath
+    & $PSQLUTILITY -h $envConfig.db_host -p $envConfig.db_port -U $envConfig.db_username -d $envConfig.db_name -f $actionConfig.scriptPath
 }
 
 # Select and retrieve content from Database (PostgreSQL)
@@ -114,7 +118,7 @@ function DBSELECT{
         $actionConfig
     )
     $sqlCmd = "COPY (" + $actionConfig.command + ") TO '" + $actionConfig.exportfile + "' WITH DELIMITER ',' CSV HEADER ENCODING '$dataEncoding' QUOTE '""' ESCAPE '''';"
-    psql -h $envConfig.db_host -p $envConfig.db_port -U $envConfig.db_username -d $envConfig.db_name -c $sqlCmd
+    & $PSQLUTILITY -h $envConfig.db_host -p $envConfig.db_port -U $envConfig.db_username -d $envConfig.db_name -c $sqlCmd
 }
 
 # Insert data into database (PostgreSQL)
@@ -125,7 +129,7 @@ function DBINSERT{
     
     $sqlCmd = "COPY " + $actionConfig.table + " FROM '" + $actionConfig.inputFile  + "' DELIMITER ',' CSV HEADER ENCODING '$dataEncoding' QUOTE '""' ESCAPE '''';"
     # echo $sqlCmd
-    psql -h $envConfig.db_host -p $envConfig.db_port -U $envConfig.db_username -d $envConfig.db_name -c $sqlCmd
+    & $PSQLUTILITY -h $envConfig.db_host -p $envConfig.db_port -U $envConfig.db_username -d $envConfig.db_name -c $sqlCmd
 }
 
 
