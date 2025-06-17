@@ -138,7 +138,7 @@ function SFUPSERT{
     param (
         $actionConfig
     )
-    sfdx data upsert bulk -s $actionConfig.object -f $actionConfig.inputFile -o $sfEnv -w $actionConfig.wait -i $actionConfig.externalid --json > $actionConfig.outputFile
+    sf data upsert bulk -s $actionConfig.object -f $actionConfig.inputFile -o $sfEnv -w $actionConfig.wait -i $actionConfig.externalid --json > $actionConfig.outputFile
 }
 
 # Upsert data into Salesforce
@@ -192,7 +192,7 @@ function SFSELECT{
         $soqlScript = 'SELECT ' + $fieldsStr + ' FROM ' + $actionConfig.object
     }
 
-    sfdx data query -q $soqlScript -b -o $sfEnv -w $actionConfig.wait -r csv --bulk  | out-file -encoding utf8 $actionConfig.outputFile
+    sf data query -q $soqlScript -b -o $sfEnv -w $actionConfig.wait -r csv --bulk  | out-file -encoding utf8 $actionConfig.outputFile
 }
 
 # Filters fields for object
@@ -201,7 +201,7 @@ function GetMigrationFieldsByObject(){
         $objAPIName
     )
 
-    $objDescribeInfo = sfdx sobject describe --sobject $objAPIName -o $sfEnv --json  | ConvertFrom-Json
+    $objDescribeInfo = sf sobject describe --sobject $objAPIName -o $sfEnv --json  | ConvertFrom-Json
 
     $objFields = @();
 
