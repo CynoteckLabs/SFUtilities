@@ -270,7 +270,7 @@ function DBCSVHEADERTOTABLESQL{
     $csvHeaders = $csv[0].psobject.Properties.Name
 
     $dmlScript = "-- Table for " + $actionConfig.tableName
-    $dmlScript += "`nCREATE TABLE " + $actionConfig.tableName + " ("
+    $dmlScript += "`nCREATE TABLE" + $actionConfig.tableName + " ("
 
     foreach ($fieldInfo in $csvHeaders){
         $dmlScript += "`n`t" + $fieldInfo + " text,"
@@ -348,7 +348,7 @@ function DBDATAEXTRACTVIEWSQL{
                 if($overriddenName -eq $NULL -OR $overriddenName -eq ""){
                     $overriddenName = $fieldInfo.name
                 }
-                $fieldsToExtract += "`n`t A" + $joinCounter + ".newid as " + $overriddenName
+                $fieldsToExtract += "`n`t A" + $joinCounter + ".newid as $overriddenName," 
                 $joinsToAdd += "`nLEFT OUTER JOIN $mappingTableName A" + $joinCounter + " on C." + $fieldInfo.name + " = A" + $joinCounter + ".oldid"
                 $fieldMap[$fieldInfo.name] = "A" + $joinCounter + ".newid"
                 $joinCounter = $joinCounter + 1
@@ -358,7 +358,7 @@ function DBDATAEXTRACTVIEWSQL{
                     $fieldsToExtract += "`n`t " + $fieldInfo.name + " AS $overriddenName,"
                 }
                 else{
-                    $fieldsToExtract += "`n`t " + $fieldInfo.name
+                    $fieldsToExtract += "`n`t " + $fieldInfo.name + ","
                 }
             }
         }
