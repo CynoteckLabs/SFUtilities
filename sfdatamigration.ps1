@@ -132,13 +132,52 @@ function DBINSERT{
     & $PSQLUTILITY -h $envConfig.db_host -p $envConfig.db_port -U $envConfig.db_username -d $envConfig.db_name -c $sqlCmd
 }
 
+function convertFileToUTF8{
+    param( $filePath)
+
+    $content = Get-Content -Raw -Encoding UTF8 $filePath
+    $Utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+    [System.IO.File]::WriteAllText($filePath, $content, $Utf8NoBom)
+}
+
 
 # Upsert data into Salesforce
 function SFUPSERT{
     param (
         $actionConfig
     )
-    sf data upsert bulk -s $actionConfig.object -f $actionConfig.inputFile -o $sfEnv -w $actionConfig.wait -i $actionConfig.externalid --json > $actionConfig.outputFile
+
+    # If maxChunkSize is set; split load file into smaller chunks to avoid failures
+    if( $actionConfig.maxChunkSize -ne $NULL){
+
+        # Create folder to put split files
+        $fileInfo = Get-Item $actionConfig.inputFile
+        $fileName = $fileInfo.Name
+
+        if($TargetFolder -eq ''){
+            $TargetFolder = $fileInfo.Directory.FullName
+        }
+
+        New-Item -Path $fileInfo.Directory.FullName -Name ($fileName + "_splitfiles") -ItemType "Directory"
+
+        # split files
+        $splitFilesFolder = ($fileInfo.Directory.FullName + "\" + $fileName + "_splitfiles")
+        & .\splitcsv -SourceCSV $actionConfig.inputFile -RowsPerFile $actionConfig.maxChunkSize -TargetFolder $splitFilesFolder
+
+        # for each split file into split folder - upsert into SF
+        Get-ChildItem $splitFilesFolder -Filter *.csv | 
+        Foreach-Object {
+
+            convertFileToUTF8 -filePath $_.FullName
+
+            sf data bulk upsert -s $actionConfig.object -f $_.FullName -o $sfEnv -w $actionConfig.wait -i $actionConfig.externalid --json >> $actionConfig.outputFile
+        }
+    }
+    else{
+        convertFileToUTF8 -filePath $actionConfig.inputFile
+
+        sf data upsert bulk -s $actionConfig.object -f $actionConfig.inputFile -o $sfEnv -w $actionConfig.wait -i $actionConfig.externalid --json > $actionConfig.outputFile
+    }
 }
 
 # Upsert data into Salesforce
