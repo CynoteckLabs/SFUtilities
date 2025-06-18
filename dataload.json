@@ -12,36 +12,7 @@
         "inputFile" : "c:\\Anshul\\datamigration\\load_accounts.csv",
         "outputFile" : "c:\\Anshul\\datamigration\\accounts_results.json",
         "wait" : 5,
+        "maxChunkSize" : 100000,
         "externalid" : "Id"
-    },
-    {
-        "action" : "SFLOADRESULTS",
-        "description" : "Process and load SF UPSERT results into database",
-        "inputFile" : "c:\\Anshul\\datamigration\\accounts_results.json",
-        "table" : "MIGRATIONSTATUS",
-        "legacyField" : "Legacy__c"
-    },
-    {
-        "action" : "DBSELECT",
-        "description" : "Extract contact staged data",
-        "command" : "select * from EXT_Contact",
-        "exportfile" : "c:\\Anshul\\datamigration\\load_contacts.csv"
-    },
-    {
-        "action" : "SFUPSERT",
-        "description" : "Upsert contacts data into Salesforce",
-        "object" : "Contact",
-        "inputFile" : "c:\\Anshul\\datamigration\\load_contacts.csv",
-        "outputFile" : "c:\\Anshul\\datamigration\\contacts_results.json",
-        "wait" : 5,
-        "externalid" : "Id",
-        "legacyField" : "Legacy__c"
-    },
-    {
-        "action" : "SFLOADRESULTS",
-        "description" : "Process and load SF UPSERT results into database",
-        "inputFile" : "c:\\Anshul\\datamigration\\contacts_results.json",
-        "table" : "MIGRATIONSTATUS",
-        "legacyField" : "Legacy__c"
     }
 ]
