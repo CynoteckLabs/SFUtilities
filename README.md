@@ -17,7 +17,7 @@ Basic ETL (Extract - Transform - Load) utility for Data Migration from/to Salesf
 1. Salesforce command line utility (https://developer.salesforce.com/tools/salesforcecli)
 2. PostgreSQL Database (https://www.postgresql.org/download/)
     * PSQL utility (installed with PostgreSQL isntaller)
-4. Powershell (pre-installed on windows machines)
+4. Powershell (pre-installed on windows machines) version 7.0+
 
 ## Pre-Requisites
 Before using this utility, ensure you have following on workstation:
